@@ -1,0 +1,19 @@
+{
+  "name": "webgl-photo",
+  "version": "0.1.0",
+  "scripts": {
+    "build": "tsc",
+    "watch:build": "tsc -w",
+    "rollup": "rollup example/index.js -w -o example/bundle.js -m"
+  },
+  "dependencies": {
+    "@types/gl-matrix": "^2.2.34",
+    "gl-matrix": "^2.3.2"
+  },
+  "devDependencies": {
+    "htmlhint": "^0.9.13",
+    "rollup": "^0.41.4",
+    "rollup-watch": "^3.2.2",
+    "typescript": "^2.1.6"
+  }
+}

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>webgl-photo example</title>
+</head>
+
+<body>
+  <canvas id="webgl-canvas" width="512" height="512"></canvas>
+
+  <script id="vertex-shader" type="shader/vertex">
+    attribute vec2 a_position;
+    attribute vec2 a_texCoord;
+    uniform mat3 u_matrix;
+    varying vec2 v_texCoord;
+    
+    void main() {
+      vec2 position = (u_matrix * vec3(a_position, 1)).xy; gl_Position = vec4(position, 0, 1); v_texCoord = a_texCoord;
+    }
+  </script>
+
+  <script id="fragment-shader" type="shader/fragment">
+    precision mediump float;
+
+    uniform sampler2D u_image;
+    uniform vec3 u_levels[2];
+    uniform float u_gamma; 
+    
+    varying vec2 v_texCoord;
+
+    vec3 gammaCorrection(vec3 color, float gamma) {
+      return pow(color, vec3(1.0 / gamma));
+    }
+    
+    float levelsChannelControlInput(float channel, float minInput, float maxInput) {
+      return min(max(channel - minInput, 0.0) / (maxInput - minInput), 1.0);
+    }
+    
+    vec3 levelsControlInputRange(vec3 color, vec3 minInput, vec3 maxInput) {
+      float redChannel = levelsChannelControlInput(color.r, minInput.r / 255.0, maxInput.r / 255.0);
+      float greenChannel = levelsChannelControlInput(color.g, minInput.g / 255.0, maxInput.g / 255.0);
+      float blueChannel = levelsChannelControlInput(color.b, minInput.b / 255.0, maxInput.b / 255.0);
+      
+      return vec3(redChannel, greenChannel, blueChannel);
+    }
+    
+    vec3 levelsControlInput(vec3 color, vec3 minInput, float gamma, vec3 maxInput) {
+      return gammaCorrection(levelsControlInputRange(color, minInput, maxInput), gamma);
+    }
+    
+    void main() {
+      vec4 color = texture2D(u_image, v_texCoord);
+      vec3 colorFixed = levelsControlInput(color.rgb, u_levels[0], u_gamma, u_levels[1]);
+      gl_FragColor = vec4(colorFixed, 1.0);
+    }
+  </script>
+
+  <script src="/bundle.js" type="application/javascript"></script>
+</body>
+
+</html>

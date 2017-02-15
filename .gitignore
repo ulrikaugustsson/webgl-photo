@@ -1,0 +1,6 @@
+build
+node_modules
+src/*.js
+src/*.js.map
+example/bundle*
+**/.DS_Store
