@@ -66,6 +66,26 @@ export class WebGLPhotoEditor {
     setImageAsTexture(this._glProgram, this._glContext, image);
   }
 
+  setRotation(radians: number) {
+    this._rotation = radians;
+
+    return this;
+  }
+
+  setScale({x, y}: {x: number, y: number}) {
+    this._scale[0] = x;
+    this._scale[1] = y;
+
+    return this;
+  }
+
+  setOffset({x, y}: {x: number, y: number}) {
+    this._offset[0] = x;
+    this._offset[1] = y;
+
+    return this;
+  }
+
   draw() {
     this._matrix
       .identity()
@@ -80,5 +100,7 @@ export class WebGLPhotoEditor {
     this._glContext.uniform1f(this._uGamma, this._gamma);
 
     this._glContext.drawArrays(this._glContext.TRIANGLES, OFFSET, COUNT);
+
+    return this;
   }
 }
