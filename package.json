@@ -4,7 +4,8 @@
   "scripts": {
     "build": "tsc",
     "watch:build": "tsc -w",
-    "rollup": "rollup example/index.js -w -o example/bundle.js -m"
+    "rollup": "rollup example/index.js -w -o example/bundle.js -m",
+    "devserver": "http-server example"
   },
   "dependencies": {
     "@types/gl-matrix": "^2.2.34",
@@ -12,6 +13,7 @@
   },
   "devDependencies": {
     "htmlhint": "^0.9.13",
+    "http-server": "^0.9.0",
     "rollup": "^0.41.4",
     "rollup-watch": "^3.2.2",
     "typescript": "^2.1.6"

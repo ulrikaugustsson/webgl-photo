@@ -66,6 +66,12 @@ export class WebGLPhotoEditor {
     setImageAsTexture(this._glProgram, this._glContext, image);
   }
 
+  rotate(radians: number) {
+    this._rotation = this._rotation + radians;
+
+    return this;
+  }
+
   setRotation(radians: number) {
     this._rotation = radians;
 

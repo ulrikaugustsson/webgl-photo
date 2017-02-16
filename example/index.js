@@ -12,7 +12,20 @@ if (glCanvas) {
     console.log('image loaded', image);
     const glEditor = new WebGLPhotoEditor(image, glCanvas, fragmentShader, vertexShader);
 
-    glEditor.draw();
+    glEditor.setScale({x: 0.5, y: 0.5});
+
+    function drawStuff() {
+      requestAnimationFrame(() => {
+        drawStuff();
+
+        glEditor
+          .rotate(0.01)
+          .draw();
+      });
+    }
+
+    drawStuff();
+    
   }, false);
 }
 
